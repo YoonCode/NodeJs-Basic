@@ -1,5 +1,6 @@
 // NodeJs Server 생성
 const http = require('http')
+const fs = require('fs')
 
 // 콜백 함수
 // 1. 이름 있는 함수 사용
@@ -10,8 +11,25 @@ const http = require('http')
 // 3. Arrow 함수 사용
 // http.createServer((req, res) => {})
 const server = http.createServer((req, res) => {
+  const url = req.url
+  const method = req.method
+  if (url === '/') {
+    res.write('<html>')
+    res.write('<head><title>Enter Message</title></head>')
+    res.write(
+      '<body><form action="/message" method="POST"><input type="text"><button type="submit">Send</button></form></body>',
+    )
+    res.write('</html>')
+    return res.end()
+  }
+  if (url === '/message' && method === 'POST') {
+    fs.writeFileSync('message.txt', 'DUMMY') // 파일 생성, 메시지 저장
+    res.statusCode = 302 // 상태 코드 302 : 리다이렉션 코드
+    res.setHeader('Location', '/') // 리다이렉션
+    return res.end()
+  }
   // console.log(req)
-  console.log(req.url, req.method, req.headers)
+  // console.log(req.url, req.method, req.headers)
   // process.exit() // 서버 종료
   res.setHeader('Content-Type', 'text/html')
   res.write('<html>')
