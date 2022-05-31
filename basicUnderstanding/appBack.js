@@ -1,6 +1,6 @@
 const http = require('http')
 
-const routes = require('./basicUnderstanding/routesBack') // 1. 같은 폴더 안에 있는 routes.js 를 찾을 것
+const routes = require('./routesBack') // 1. 같은 폴더 안에 있는 routes.js 를 찾을 것
 
 const server = http.createServer(routes) // 3. routes.js 의 requestHandler 를 사용할 수 있음
 
