@@ -1,11 +1,18 @@
 const http = require('http')
 
-const routes = require('./basicUnderstanding/routesBack') // 1. 같은 폴더 안에 있는 routes.js 를 찾을 것
+const express = require('express')
 
-const server = http.createServer(routes) // 3. routes.js 의 requestHandler 를 사용할 수 있음
+const app = express()
 
-// console.log(routes.someText)
+app.use((req, res, next) => {
+  console.log('In the middleware!')
+  next() // Allows the request to continue to the next middleware in line
+})
+app.use((req, res, next) => {
+  console.log('In another middleware!')
+  res.send('<h1>Hello from Express!</h1>')
+})
 
-// const server = http.createServer(routes.handler)
+const server = http.createServer(app)
 
 server.listen(3000)
